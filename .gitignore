@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+# or if your build folder is named 'build'
+build/
+
+# Optional: logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
