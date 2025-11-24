@@ -8,24 +8,31 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// CORS config
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
+
+// Routes
+app.use("/cert", certRoute);
 
 app.get("/", (req, res) => {
   res.send({ message: "Welcome to Certifi.ly" });
 });
 
-// Routes
-app.use("/cert", certRoute);
-
+// DB connection & server start
 getDataSource()
   .then(() => {
     console.log("Database connected");
-
     const domain = process.env.APP_DOMAIN;
-    const port = parseInt(process.env.APP_PORT);
-    
+
+    const port = parseInt(process.env.APP_PORT || '3000', 10);
+
     app.listen(port, domain, () => {
-      console.log("Server start running at the port" + ' ' + port);
+      console.log(`Server running on port ${port}`);
     });
   })
   .catch((err) => {
