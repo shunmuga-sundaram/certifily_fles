@@ -43,15 +43,15 @@ router.get('/thumbnail/:vertifiId', async (req: Request, res: Response) => {
     const dataSource = await getDataSource();
 
     // Raw SQL query without entity
-    const result: { thumbnail_path: string }[] = await dataSource.query(
-      'SELECT thumbnail_path FROM certificate WHERE cid = ?',
+    const result: { certificate_file_path: string }[] = await dataSource.query(
+      'SELECT certificate_file_path FROM certificate WHERE cid = ?',
       [vertifiId]
     );
     if (result.length === 0) {
       return res.status(404).json({ message: 'Certificate not found' });
     }
 
-    const filePath = result[0].thumbnail_path;
+    const filePath = result[0].certificate_file_path;
     const absolutePath = resolve(filePath);
 
     if (!fs.existsSync(absolutePath)) {
